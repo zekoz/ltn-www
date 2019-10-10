@@ -25,7 +25,7 @@ class Game(models.Model):
 	descr		= models.TextField()
 	mode		= models.CharField(max_length=128, choices=MODE_CHOICES)
 	version		= models.CharField(max_length=128, choices=VERSION_CHOICES)
-	admin		= models.ForeignKey(User, related_name="admin", blank=True, null=True)
+	admin		= models.ForeignKey(User, related_name="admin", blank=True, null=True, on_delete=models.CASCADE)
 	players		= models.ManyToManyField(User, through='Joined', related_name="players")
 	host		= models.CharField(max_length=128, default="longturn.net", blank=True)
 	port		= models.PositiveIntegerField(blank=True, null=True)
@@ -46,9 +46,9 @@ class Game(models.Model):
 
 class Team(models.Model):
 	name		= models.CharField(max_length=128)
-	game		= models.ForeignKey(Game)
-	leader		= models.ForeignKey(User, related_name="leader")
-	members		= models.ManyToManyField(User, through='Joined', related_name="members")
+	game		= models.ForeignKey(Game, on_delete=models.CASCADE)
+	leader		= models.ForeignKey(User, related_name="leader", on_delete=models.CASCADE)
+	members		= models.ManyToManyField(User, through='Joined')
 
 	class Meta:
 		unique_together = ('game', 'name')
@@ -59,10 +59,10 @@ class Team(models.Model):
 		return "%s" % (self.name)
 
 class Joined(models.Model):
-	user		= models.ForeignKey(User, related_name="user")
+	user		= models.ForeignKey(User, related_name="user", on_delete=models.CASCADE)
 	date_joined	= models.DateTimeField(auto_now_add=True)
-	game		= models.ForeignKey(Game)
-	team		= models.ForeignKey(Team, blank=True, null=True)
+	game		= models.ForeignKey(Game, on_delete=models.CASCADE)
+	team		= models.ForeignKey(Team, blank=True, null=True, on_delete=models.CASCADE)
 	nation		= models.CharField(max_length=128, default="random")
 	delegation	= models.CharField(default=None, blank=True, null=True, max_length=128)
 	is_idler	= models.BooleanField(default=False)

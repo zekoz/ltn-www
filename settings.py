@@ -45,9 +45,11 @@ ROOT_URLCONF = 'longturn.urls'
 
 ALLOWED_HOSTS = ['longturn.net', 'www.longturn.net']
 
-TEMPLATE_DIRS = (
-	'/home/longturn-www/longturn/templates',
-)
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+    'DIRS': ['templates'],
+}]
 
 INSTALLED_APPS = (
 	'django.contrib.auth',
@@ -55,7 +57,7 @@ INSTALLED_APPS = (
 	'django.contrib.sessions',
 #	'django.contrib.sites',
 	'django.contrib.messages',
-	'django.contrib.admin',
+	#'django.contrib.admin',
 	'django.contrib.admindocs',
 	'django.contrib.humanize',
 	'longturn.main',

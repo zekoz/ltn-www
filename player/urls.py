@@ -1,10 +1,10 @@
 from django.conf.urls import *
-from django.contrib.auth.views import login, logout
+from django.contrib.auth import login, logout
 from longturn.player.views import *
 
 from longturn.views import *
 
-urlpatterns = patterns('',
+urlpatterns = [
 	url(r'^login/$',			login, name='login'),
 	url(r'^logout/$',			logout, name='logout'),
 	url(r'^register/$',			register, name='register'),
@@ -13,4 +13,4 @@ urlpatterns = patterns('',
 	url(r'^players/$',			players, {'sort': "username"}, name='players'),
 	url(r'^players/sort/(\w+)/$',		players, name='players'),
 	url(r'^invalid/$',			logout, name='invalid'),
-)
+]
